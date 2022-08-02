@@ -1,0 +1,33 @@
+<mat-card>
+  <mat-card-title style="text-align: center">First phase</mat-card-title>
+</mat-card>
+<mat-tab-group #matTabGroup (selectedTabChange)="onSelectedTabChange()">
+  <mat-tab
+    *ngFor="let step of firstPhaseResult?.steps; let index = index"
+    [label]="index + 1 + '. Step'"
+  >
+    <div class="content-wrapper">
+      <mat-card *ngIf="step?.explanation as explanation">
+        <mat-card-title> Explanation </mat-card-title>
+        <mat-card-content>{{explanation}} </mat-card-content>
+      </mat-card>
+      <div class="table-wrapper">
+        <badged-table [tableSource]="step?.transportation || []"></badged-table>
+        <opres-simple-table
+          [tableSource]="step?.stocks | stocksToTable"
+        ></opres-simple-table>
+        <opres-simple-table
+          [tableSource]="step?.demands | demandsToTable"
+        ></opres-simple-table>
+      </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>
+<mat-card *ngIf="firstPhaseResult?.epsilon as epsilon">
+  <mat-card-title style="text-align: center">
+    Epsilon: {{epsilon.value}}
+  </mat-card-title>
+  <mat-card-content *ngIf="epsilon?.explanation as explanation"
+    >{{explanation}}</mat-card-content
+  >
+</mat-card>
